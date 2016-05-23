@@ -1,0 +1,13 @@
+$TTL    604800
+@       IN      SOA     ns.__domain__. root.__domain__. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800       ; Negative Cache TTL
+)
+
+@       IN      NS      ns.__domain__.
+@	IN	A	__ip__
+ns      IN      A       __ip__
+www	IN	A	__ip__
