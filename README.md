@@ -29,7 +29,7 @@
 
 Если всё устраивает - добавьте вызов в крон, например так:
 
-    */20 * * * * root /opt/named_fakezone_generator/generate_bind_configs.sh /tmp/reductor.https.resolv 10.50.140.73
+    echo '*/20 * * * * root /opt/named_fakezone_generator/generate_bind_configs.sh /tmp/reductor.https.resolv 10.50.140.73' > /etc/cron.d/named_fakezone_generator
 
 Не забудьте добавить запись, которая периодически забирает файл https.resolv с Carbon Reductor. Это можно сделать следующим образом:
 
@@ -45,17 +45,28 @@
 
     scp root@<ip адрес carbon reductor>:/usr/local/Reductor/lists/https.resolv /tmp/reductor.https.resolv
 
+При сильном желании, если хочется держать и менять IP адрес заглушки в одном месте, можно забирать аналогично с Carbon Reductor файл /usr/local/Reductor/userinfo/config внутри обёртки в духе, которую вызывать по крону:
+
+    #!/bin/bash
+        
+    scp root@<ip адрес carbon reductor>:/usr/local/Reductor/userinfo/config /tmp/reductor.config
+    scp root@<ip адрес carbon reductor>:/usr/local/Reductor/lists/https.resolv /tmp/reductor.https.resolv
+    source /tmp/reductor.config
+    /opt/named_fakezone_generator/generate_bind_configs.sh /tmp/reductor.https.resolv "${filter['dns_ip']}"
+
 ## Принцип действия
 
 Генерирует следующие файлы:
 
-Список блокируемых зон:
+Список блокируемых зон
 
-    zones=/etc/named.reductor.zones
+    /etc/named.reductor.zones
 
-Файлы зон:
+Файлы зон
 
     /etc/named/reductor_<домен который необходимо редиректить>.conf
+
+Больше подробностей можно узнать непосредственно посмотрев файлы generate\_bind\_configs.sh и reductor\_named\_domain.tmplt.
 
 ## Примечания
 
