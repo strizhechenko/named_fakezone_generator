@@ -2,11 +2,22 @@
 
 Генератор зон для named/bind9 для списка доменов, которые необходимо перекидывать на заглушку, настроенную по гайду https://github.com/carbonsoft/reductor_blockpages
 
-## Использование
+## Установка
+
+Пример установки для CentOS 6, но в целом нам понадобятся:
+
+- **git** чтобы склонировать этот репозиторий
+- **m4** чтобы генерировать записи из шаблона
+- сам **bind9/named**, предполагается, что он уже установлен
+
+    yum -y install git m4
+    git clone git@github.com:strizhechenko/named_fakezone_generator.git /opt/named_fakezone_generator/
 
 Допишите в конец файла /etc/named.conf:
 
     include "/etc/named.reductor.zones";
+    
+## Использование
 
 Запустите:
 
